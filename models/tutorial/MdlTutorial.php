@@ -42,7 +42,17 @@ class MdlTutorial
         // will be modefiable only by administration
         $present_scenarios["scenario name"] = ["list", "of", "attributes",];
         
+        // в сценарии указываются поля которые будут учавствовать в масовом присваивании
+        // и валидации. Те поля, которые не указаны - не учавствуют в массовом
+        // в массововом присваивании $model->attributes + $model->load
+        // и валидации, даже если для них установлено правило.
+        //
         $present_scenarios["scenario_validate"] = ["code", "name", "population"];
+        
+        // Все три поля будут подвержены проверке.
+        // Но только ко двум из них будет применено массовое присвоение
+        //
+        $present_scenarios["secret"] = ["code", "name", "!secret"];
         return $present_scenarios;
     }
    
