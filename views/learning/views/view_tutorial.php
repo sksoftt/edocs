@@ -11,7 +11,11 @@ print yii\helpers\HtmlPurifier::process($content); //медленная функ
 // вызвать вид с любого места в программе
 //print \Yii::$app->view->renderFile("@app/views/site/index.php");
 
-// доступ к контроллеру и его публичиным свойствам
+// $this->context  содержит контроллер, предоставляя доступ и его публичиным свойствам
 print $this->context->message;
 
 $this->params["breadcrumbs"][] = ['label' => 'Tutorial', 'url' => ['/learning/views']];
+
+// передача данных между различными видами. 
+// по этому же принципу работает и breadcrums
+$this->params["some data"] = "Some data";
