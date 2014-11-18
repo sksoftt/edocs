@@ -11,7 +11,7 @@ class FiltersController
         return
         [
             [
-                "class" => "app\MyFilters\TutorialFilter",
+                "class" => "app\Components\Filters\Learn\TutorialFilter",
                 "only" => ["filter-learn"],
             ],
         ];
@@ -19,6 +19,14 @@ class FiltersController
     
     public function actionFilterLearn($val = false)
     {
-        print "Received value: ".$val;
+        return $this->render("NoErrors");
+    }
+    
+    public function actionFilterError($message = null)
+    {
+        if($message == null)
+        {
+            return $this->renderPartial("BeforeError");
+        }
     }
 }
