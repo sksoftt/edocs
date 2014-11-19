@@ -2,6 +2,8 @@
 
 namespace app\controllers\learning;
 
+use yii\filters\AccessControl;
+
 class FiltersController
     extends \yii\web\Controller
 {
@@ -11,8 +13,21 @@ class FiltersController
         return
         [
             [
+                // класс фильтра
                 "class" => "app\Components\Filters\Learn\TutorialFilter",
-                "only" => ["filter-learn"],
+                
+                // к каким действиям его применять "only" или "exept"
+                "only" => ["filter-learn"], 
+            ],
+            
+            "access" =>
+            [
+                "class" => AccessControl::className(),
+                "rules" =>
+                [
+                    "allow" => true,
+                    "roles" => "@",
+                ],
             ],
         ];
     }
