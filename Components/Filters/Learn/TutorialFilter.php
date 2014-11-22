@@ -11,11 +11,14 @@ class TutorialFilter
         parent::beforeAction($action);
         
         // invoke render view - but only this file, without 
-        print \Yii::$app->view->renderFile("@app/views/learning/Filters/BeforeError.php");
-        print $action->controller->render("BeforeError");
+//        print \Yii::$app->view->renderFile("@app/views/learning/Filters/BeforeError.php");
+        
+        //запускает от имени контроллера рендеринг вида
+        // не разрушает layout
+        print $action->controller->render("@app/views/learning/Filters/BeforeError.php");
         
         //если вернет false, то действие не будет выполнено.
-        return true;
+        return false;
         
     }
     

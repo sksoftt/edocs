@@ -9,7 +9,7 @@ class FiltersController
 {
     public function behaviors()
     {
-        parent::behaviors();
+//        parent::behaviors();
         return
         [
             [
@@ -22,13 +22,29 @@ class FiltersController
             
             "access" =>
             [
-                "class" => AccessControl::className(),
+                'class' => \yii\filters\AccessControl::className(),
+                "only" => ["act1"],
                 "rules" =>
                 [
-                    "allow" => true,
-                    "roles" => "@",
+                    [
+                        "allow" => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
+            
+            [
+                "class" => AccessControl::className(),
+                "only" => ["act2"],
+                "rules" =>
+                [
+                    [
+                        "allow" => true,
+                        "roles" => ["?"],
+                    ],
+                    
+                ],
+            ]
         ];
     }
     
@@ -44,4 +60,16 @@ class FiltersController
             return $this->renderPartial("BeforeError");
         }
     }
+    
+    public function actionAct1()
+    {
+        return $this->render("PrintMessages", ["messages" => "This is First action function"]);
+    }
+    
+    public function actionAct2()
+    {
+        return $this->render("PrintMessages", ["messages" => "This is Second action function."]);
+    }
+    
+    
 }
