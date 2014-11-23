@@ -9,12 +9,12 @@
 
 namespace app\MyAssets\Learn\AssetsTutorial;
 
-class AssetsTutorial
+class AssetTutorial
     extends \yii\web\AssetBundle
 {
-    public $sourcePath = "@webroot/MyAssets/Learn/AssetsTutorial";
-    public $basePath = "@webroot/MyAssets/Learn/AssetsTutorial";
-    public $baseUrl = "@webroot/MyAssets/Learn/AssetsTutorial";
+//    public $sourcePath = "@app\MyAssets\Learn\AssetsTutorial";
+    public $basePath = "@webroot";
+    public $baseUrl = "@web/MyAssets/Learn/AssetsTutorial";
     public $css =
     [
         

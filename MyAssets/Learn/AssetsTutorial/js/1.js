@@ -1,4 +1,6 @@
-document.addEventListener("ready", function(e)
-{
-   alert("Documnt ready. Assets works!!"); 
-});
+//document.addEventListener("ready", function(e)
+//{
+//   alert("Documnt ready. Assets works!!"); 
+//});
+
+alert("Yes");
