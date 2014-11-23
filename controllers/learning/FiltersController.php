@@ -18,6 +18,9 @@ class FiltersController
                 
                 // к каким действиям его применять "only" или "exept"
                 "only" => ["filter-learn"], 
+//                "property 1" => "value",
+//                "property 2" => "value",
+//                "property 3" => "value",
             ],
             
             "access" =>
