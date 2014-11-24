@@ -5,7 +5,13 @@
  * предстваит все эти файлы.
  * 
  * AssetsBundle - это класс, который содержит в себе несколько других Ассетов
+ * 
+ * Чтобы использовать AssetsBundle его надо зарегистрировать в Представлении
+ * в данном примере:
+ * use app\MyAssets\Learn\AssetsTutorial\AssetTutorial; - путь к классу
+ * AssetTutorial::register($this): $this - этор объект представления.
  */
+
 
 namespace app\controllers\learning;
 
