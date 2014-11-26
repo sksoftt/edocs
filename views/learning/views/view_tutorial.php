@@ -40,9 +40,9 @@ $this->beginBlock("block_name");
 $this->endBlock();
 
 //потом в layout-e
-if (isset($this->blocks("block_name")))
+if (isset($this->blocks["block_name"]))
 {
-    print $this->block("block_name");
+    print $this->block["block_name"];
 }
 else
 {
