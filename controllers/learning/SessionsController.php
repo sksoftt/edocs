@@ -23,7 +23,7 @@ class SessionsController
         
     }
 
-    public function actionЫуыышщты()
+    public function actionSessions()
     {
         $session = \Yii::$app->session; //получаем объект с сессиями
         
@@ -53,5 +53,18 @@ class SessionsController
        $slava["last_name"] = "ghfgh";
         
         print $session["slava"]["name"]; //этот кодж будет работать.
+    }
+    
+    public function actionCookies($val = null)
+    {
+        $cookies = \Yii::$app->response->cookies;
+         $cookies->remove("slava");
+        if ($cookies->get("slava") != "")
+        {
+            $cookies->remove("slava");
+        }
+        
+        $cookies->add(new \yii\web\Cookie(["name" => "slava", "value" => "unpassed"]));
+        print $cookies->get("slava");
     }
 }
