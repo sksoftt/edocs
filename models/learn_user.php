@@ -3,28 +3,30 @@
 namespace app\models;
 
 class learn_user
-extends yii\db\ActiveRecord
+extends \yii\db\ActiveRecord
 implements \yii\web\IdentityInterface
 {
     
-    public $id;
+    public $user_id;
     public $auth_key;
     
     public $user_name;
-    public $email;
-    public $password;
-    public $status;
-    public $role;
-
-
-
-
-
+    public $user_email;
+    public $user_password;
+    public $user_status;
+    
+    public function rules()
+    {
+        return
+        [
+            [["user_name", "user_email", "user_password"], "required"],
+            [["user_email"], "email"],
+        ];
+    }
 
     /*
      * Воспроизводит функции интерфейса
      */
-    
     public function getAuthKey()
     {
         return $this->auth_key;
@@ -32,12 +34,12 @@ implements \yii\web\IdentityInterface
     
     public function getId()
     {
-        return $this->id;
+        return $this->user_id;
     }
     
-    public function findIdentity($id)
+    public static function findIdentity($id)
     {
-        return static::findOne(["id" => $id]);
+        return static::findOne(["user_id" => $id]);
     }
     
     public static function findIdentityByAccessToken($token, $type = null)
@@ -52,6 +54,6 @@ implements \yii\web\IdentityInterface
     
     public static function tableName()
     {
-        return "learn_user";
+        return "users";
     }
 }
