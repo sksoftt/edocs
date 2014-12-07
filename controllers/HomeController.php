@@ -5,7 +5,7 @@ namespace app\controllers;
 use Yii;
 
 class HelloController
-    extends yii\base\Controller
+    extends yii\web\Controller
 {
     private $users_model;
     

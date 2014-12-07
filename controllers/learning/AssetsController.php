@@ -20,6 +20,8 @@ class AssetsController
 {
     public function actionIndex()
     {
+        $user = \Yii::$app->user;
+        $guest = \Yii::$app->user->isGuest;
         return $this->render("index");
     }
 }
