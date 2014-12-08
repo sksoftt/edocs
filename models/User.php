@@ -12,14 +12,14 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
 
     private static $users = [
         '100' => [
-            'id' => '100',
+            'id' => '1000',
             'username' => 'admin',
             'password' => 'admin',
             'authKey' => 'test100key',
             'accessToken' => '100-token',
         ],
         '101' => [
-            'id' => '101',
+            'id' => '1010',
             'username' => 'demo',
             'password' => 'demo',
             'authKey' => 'test101key',
@@ -59,6 +59,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     {
         foreach (self::$users as $user) {
             if (strcasecmp($user['username'], $username) === 0) {
+                $us = new static($user);
                 return new static($user);
             }
         }
