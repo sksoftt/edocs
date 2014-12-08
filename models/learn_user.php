@@ -44,6 +44,8 @@ implements \yii\web\IdentityInterface
         $this->getId();
     }
     
+    // необходимая функция.
+    // должна присутствовать либо она либо свойство $username
     public function getUsername()
     {
         return $this->user_name;
@@ -54,7 +56,7 @@ implements \yii\web\IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->auth_key;
+        return $this->user_auth_key;
     }
     
     public function getId()

@@ -13,19 +13,26 @@ class RbacController
     
     public function actionLoginUser()
     {
+        // необходимо прописать в настройках web.php
+        // 'identityClass' => 'app\models\learn_user',
+        
+        
         $model = new \app\models\learn_user();
-        $us = \Yii::$app->user;
+        
         $guest = \Yii::$app->user->isGuest;
         if (\Yii::$app->user->isGuest)
         {
+            // загружаем модель и проверяем ее
             if (!$model->load(\Yii::$app->request->post()) || !$model->validate())
-            {
+            {   //если не прошло, то вызываем форму логина.
                 return $this->render("login", ["model" => $model]);
             }
-            $model->findOne($model->user_name);
-            // $user = learn_user::findByName($model->user_name);
             
-            $user = $model->findByName();
+            // если полученные данные от формы корректны
+            // производим поиск из БД
+            
+            
+            $user = $model->findByName($model->user_name);
             
             
             
