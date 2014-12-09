@@ -1,61 +1,96 @@
 <?php
+/*
+ * Прежде всего необходимо выбрать менеджер в настройках приложения.
+ * 'authManager' => [
+            'class' => 'yii\rbac\PhpManager', // ведет записи в файлах.
+            "class" => "yii\rbac\DbManager", // ведет записи в БД. Схему можно найти в папке migrations
+            'defaultRoles' => ['guest'],
+        ],
+ */
+
 namespace app\controllers\learning;
 
-use app\models\learn_user;
 
 class RbacController
     extends \yii\web\Controller
 {
-    public function actionIndex()
+    // функция устанавливает разрешения(permissions) и роли (Roles)
+    public function actionInit()
     {
-        return $this->render("index");
+        $authManager = \Yii::$app->authManager;
+        
+        $authManager = new \yii\rbac\DbManager();
+        
+        $createPost = $authManager->createPermission("createPost");
+        $createPost->description = "Gives permission to user create new posts";
+        $authManager->add($createPost);
+        
+        $updatePost = $authManager->createPermission("updatePost");
+        $updatePost->description = "Gives to user permission to update created posts";
+        $authManager->add($updatePost);
+        
+        $author = $authManager->createRole("author");
+        $authManager->add($author);
+        $authManager->addChild($author, $createPost);
+        
+        $admin = $authManager->createRole("admin");
+        $authManager->add($admin);
+        $authManager->addChild($admin, $updatePost);
+        $authManager->addChild($admin, $author);
+        
+        
     }
     
-    public function actionLoginUser()
+    public function actionFuncs()
     {
-        // необходимо прописать в настройках web.php
-        // 'identityClass' => 'app\models\learn_user',
+        $authManager = new \yii\rbac\DbManager();
         
+        $var = $authManager->getRole("admin");
         
-        $model = new \app\models\learn_user();
+        $stamRole = $authManager->createRole("stamRole");
+        $stamRole->description = "This is role for trying";
         
-        $guest = \Yii::$app->user->isGuest;
-        if (\Yii::$app->user->isGuest)
+        if($authManager->getRole("stamRole") == null)
         {
-            // загружаем модель и проверяем ее
-            if (!$model->load(\Yii::$app->request->post()) || !$model->validate())
-            {   //если не прошло, то вызываем форму логина.
-                return $this->render("login", ["model" => $model]);
-            }
-            
-            // если полученные данные от формы корректны
-            // производим поиск из БД
-            
-            
-            $user = $model->findByName($model->user_name);
-            
-            
-            
-            $atr = $user->getAttributes();
-            
-            $id = $model->getId();
-            
-            
-//            $user->user_id = $user->attributes;
-            $id = $user->getId();
-            $id = $user->user_id;
-            
-           // $user->user_id = 1;
-            //$user->user_name = "s";
-            
-            
-            $login = \Yii::$app->user->login($user, 3600000);
-            return $this->goHome();
+            $authManager->add($stamRole);
         }
+        
+        $authManager->remove($stamRole);
+        
+        $user_id = \Yii::$app->user->id;
+        $user_roles = $authManager->getRolesByUser($user_id); // возвр. массив с ролями и разрешениями
+        if(!isset($user_roles["admin"]))
+        {
+            $adminRole = $authManager->getRole("admin");
+            $authManager->assign($adminRole, $user_id);
+        }
+        
+        $updatePost = $authManager->getPermission("updatePost");
+        
+        if(!isset($user_roles["updatePost"]))
+        {
+            $authManager->assign($updatePost, $user_id);
+        }
+        
     }
     
-    public function actionLogout()
-    {
-        \Yii::$app->user->logout();
-    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
