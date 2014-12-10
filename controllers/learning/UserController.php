@@ -3,7 +3,7 @@ namespace app\controllers\learning;
 
 use app\models\learn_user;
 
-class RbacController
+class UserController
     extends \yii\web\Controller
 {
     public function actionIndex()
