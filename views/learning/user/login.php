@@ -9,6 +9,7 @@ $form = ActiveForm::begin(["id" => "loginForm"]);
 print $form->field($model, "user_name");
 print $form->field($model, "user_password")->passwordInput();
 print $form->field($model, "user_email");
+//print $form->field($model,'user_email')->widget(DatePicker::className(),['clientOptions' => ['defaultDate' => '2014-01-01']]);
 
 print Html::submitButton("Submit form");
 ActiveForm::end();

@@ -16,10 +16,15 @@ class UserController
         // необходимо прописать в настройках web.php
         // 'identityClass' => 'app\models\learn_user',
         
-        
+        $url = \yii\helpers\BaseUrl::previous();
         $model = new \app\models\learn_user();
         
         $guest = \Yii::$app->user->isGuest;
+        
+        if (!\Yii::$app->user->isGuest)
+        {
+            return $this->logout();
+        }
         if (\Yii::$app->user->isGuest)
         {
             // загружаем модель и проверяем ее
@@ -30,14 +35,8 @@ class UserController
             
             // если полученные данные от формы корректны
             // производим поиск из БД
-            
-            
             $user = $model->findByName($model->user_name);
-            
-            
-            
             $atr = $user->getAttributes();
-            
             $id = $model->getId();
             
             
@@ -48,14 +47,26 @@ class UserController
            // $user->user_id = 1;
             //$user->user_name = "s";
             
-            
             $login = \Yii::$app->user->login($user, 3600000);
             return $this->goHome();
         }
     }
     
+    public function logout()
+    {
+        return $this->render("logout");
+    }
+    
+    public function actionPreviousPage()
+    {
+        $url = \yii\helpers\BaseUrl::previous();
+        \Yii::$app->getUser()->setReturnUrl(\yii\helpers\BaseUrl::previous());
+        return $this->goBack();
+    }
+
     public function actionLogout()
     {
         \Yii::$app->user->logout();
+        $this->goHome();
     }
 }
