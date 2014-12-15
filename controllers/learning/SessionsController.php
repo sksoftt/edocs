@@ -67,4 +67,9 @@ class SessionsController
         $cookies->add(new \yii\web\Cookie(["name" => "slava", "value" => "unpassed"]));
         print $cookies->get("slava");
     }
+    
+    public function actionSendFile()
+    {
+        \Yii::$app->response->sendFile("controllers/learning/ModelController.php")->send();
+    }
 }
