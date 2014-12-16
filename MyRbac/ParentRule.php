@@ -9,7 +9,7 @@ class ParentRule
     public function execute($user, $item, $params)
     {   
         $username = \Yii::$app->user->identity->user_name;
-        if ($username == "parent")
+        if ($username == "parent" || $username == "child")
         {
             return true;
         }

@@ -7,6 +7,9 @@ class FirstRule
     
     public $name = "for_s";
     
+    /*
+     * Обязательная функция которая описывает правило.
+     */
     public function execute($user, $item, $params)
     {
         $username = \app\models\learn_user::findOne(["user_id" => $user]);
