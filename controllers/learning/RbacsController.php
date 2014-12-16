@@ -85,7 +85,7 @@ class RbacsController
         $parentPermission = $rbac->getPermission("parentPermission");
         $childRole = $rbac->getRole("childRole");
         
-        if (!$rbac->hasChild($childRole, $childPermission))
+        if (!$rbac->hasChild($childRole, $parentPermission))
         {
             $rbac->addChild($childRole, $parentPermission);
         }
@@ -101,13 +101,26 @@ class RbacsController
         
 //        $childRole = $rbac->getRole("childRole");
 //        $res = $rbac->assign($childRole, $id);
-
+//
         $childPermission = $rbac->getPermission("childPermission");
-        $parentPermisstion = $rbac->getPermission("parentPermission");
+//        $parentPermisstion = $rbac->getPermission("parentPermission");
         $childRole = $rbac->getRole("childRole");
+//        
+//        $rbac->removeChild($childRole, $childPermission);
+//        $rbac->addChild($childRole, $parentPermisstion);
         
-        $rbac->removeChild($childRole, $childPermission);
-        $rbac->addChild($childRole, $parentPermisstion);
+        $thirdRule = new \app\MyRbac\ThirdRule();
+        $rbac->add($thirdRule);
+        
+        $secParentPermission = $rbac->createPermission("secParentPermission");
+        $secParentPermission->description = "Second parent permission";
+        $secParentPermission->ruleName = "thirdRule";
+        
+        
+        $rbac->add($secParentPermission);
+        $secParentPermission = $rbac->getPermission("secParentPermission");
+        $rbac->addChild($secParentPermission, $childPermission);
+        $rbac->addChild($childRole, $secParentPermission);
         
 
         
@@ -116,7 +129,8 @@ class RbacsController
     public function actionF()
     {
         $rbac = new \yii\rbac\DbManager();
-        if (\Yii::$app->user->can("childPermission"))
+        $user = \Yii::$app->user->identity;
+        if (\Yii::$app->user->can("secParentPermission"))
         {
             print "User can!";
             return;
