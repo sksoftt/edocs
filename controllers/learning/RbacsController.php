@@ -130,7 +130,7 @@ class RbacsController
     {
         $rbac = new \yii\rbac\DbManager();
         $user = \Yii::$app->user->identity;
-        if (\Yii::$app->user->can("secParentPermission"))
+        if (\Yii::$app->user->can("childPermission"))
         {
             print "User can!";
             return;
@@ -142,11 +142,17 @@ class RbacsController
 /*
  * 1. К parentPermission добавлено Разрешение childPermission. Разрешения добавлены ролям соответстввенно.
  *    К пользователю Child добавляем роль childRole. Запускаем проверку user->can("childPermission")
- *    Сработали правила childRule. parentRule не запустился, разрешение дано. На parentPermission разрешения нету.
+ *    Сработали правила childRule. parentRule не запустился, разрешение дано. 
+ *    При проверке на parentPermission разрешения нету.
  *    
  * 2. К parentPermission добавлено Разрешение childpermission. Дабавляем parentPermission к childRole
  *    и проверяем parentPermission - роль есть и срабатывает только ее правило. 
  *    Проверяем childPermission - производится проверка childpermission и parentPermission 
+ * 
+ * 3. Создал еще одно правило $secParentPermission и добавил его родителем к $childPermission.
+ *    В случаях когда проверяется user->can("secParentPermission"), то как и полодено проверяется первое правило.
+ *    Когда же проверяется $childPermission, то будет проверяться $childPermission и все его родители до первого
+ *    вернувшего true, 
  *    
  *    
  */

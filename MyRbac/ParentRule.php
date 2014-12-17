@@ -11,7 +11,7 @@ class ParentRule
         $username = \Yii::$app->user->identity->user_name;
         if ($username == "parent" || $username == "child")
         {
-            return true;
+            return false;
         }
         return false;
     }
