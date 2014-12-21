@@ -35,4 +35,10 @@ class DbaController
         $connection->createCommand()->delete("table_name", "cond_field = cond_value")->execute();
         
     }
+    
+    public function actionSchema()
+    {
+        $connection = \Yii::$app->db;
+        $scema =  $connection->getSchema()->getTableSchemas();
+    }
 }
