@@ -23,6 +23,24 @@ class DbaController
         $command = $connection->createCommand("SELECT COUNT(u.user_id) FROM USERS u WHERE user_id = 156");
         $count = $command->queryScalar(); //Возвращает только число, на случай если не нужно возвращать массив с данными.
         
+        // добавление и экранирование параметров.
+        // должнобыть использовано практически всегда для предотвращения
+        // внедрение в БД и выполнения несанкционированных команд.
+        
+        $command = \yii::$app->db;
+        $command->crteateCommand("SELECT * FROM tale WHERE Id = :id AND status = :status")
+        ->bindValue([":id", \yii::$app->request->get("id")])
+        -> bindValue([":status", "this is the status value"])
+        ->queryOne();
+        
+        //точно также можно использовать bindParam()
+        // В этом случае переменная передается по ссылке. Т.е. можно изменять
+        // только ее и получать разные результаты той же команды.
+        
+        $params = [":id" => $_GET["id"], ":status" => "This is the status"];
+        $command->createCommand("SELECT * FROM table WHERE id = :id AND status = :status")
+        ->bindValues($params);
+        
         // используется в тех случаях, когда не нужно возвращать значение
         // например, UPDATE, INSERT, DELETE
         $count = $command->execute();
@@ -34,11 +52,8 @@ class DbaController
         
         $connection->createCommand()->delete("table_name", "cond_field = cond_value")->execute();
         
-    }
-    
-    public function actionSchema()
-    {
-        $connection = \Yii::$app->db;
-        $scema =  $connection->getSchema()->getTableSchemas();
+        // экранирование имен таблиц и столбцов.
+        // [[TableName]] {{%columnName}}
+        // % будет заменен на префикс если он определен.
     }
 }
