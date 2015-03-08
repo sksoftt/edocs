@@ -32,12 +32,14 @@ class UserController
             {   //если не прошло, то вызываем форму логина.
                 return $this->render("login", ["model" => $model]);
             }
-            
+            $post = \Yii::$app->request->post();
             // если полученные данные от формы корректны
             // производим поиск из БД
             $user = $model->findByName($model->user_name);
             $atr = $user->getAttributes();
             $id = $model->getId();
+            $mail = $model->user_email;
+            $pas = $model->user_password;
             
             
 //            $user->user_id = $user->attributes;
@@ -54,6 +56,8 @@ class UserController
     
     public function logout()
     {
+        $user = \yii::$app->user;
+        $cnt = 4;
         return $this->render("logout");
     }
     

@@ -30,7 +30,7 @@ implements \yii\web\IdentityInterface
         [
 //            [["user_name", "user_email", "user_password"], "required"],
 //            [["user_email"], "email"],
-            [["user_name"], "required"],
+            [["user_name", "user_email", "user_password"], "required"],
         ];
     }
     

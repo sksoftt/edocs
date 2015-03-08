@@ -28,7 +28,7 @@ class DbaController
         // внедрение в БД и выполнения несанкционированных команд.
         
         $command = \yii::$app->db;
-        $command->crteateCommand("SELECT * FROM tale WHERE Id = :id AND status = :status")
+        $command->createCommand("SELECT * FROM tale WHERE Id = :id AND status = :status")
         ->bindValue([":id", \yii::$app->request->get("id")])
         -> bindValue([":status", "this is the status value"])
         ->queryOne();

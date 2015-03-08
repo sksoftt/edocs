@@ -28,11 +28,61 @@ class DbQueryBuilderController
         // разделены запятыми
         $queryBuilder->select(["Id", "name"]);
         
+        //SELECT user.id AS user_id
+        $queryBuilder->select(["user_id" => "user.Id"]);
+        
         //кроме того массивы могут содержать такие выражения как AS или подзапросы.
         $subQuery = $queryBuilder->select("COUNT(*)")->from("querybuilder");
         
         // Тоже самое что и 
         // SELECT Id as user_id, (SELECT COUNT(*) FROM querybuilder) AS Count FROM querybuilder
         $query = $queryBuilder->select(["user_id" => "Id", "Count" => $subQuery]);
+        
+        //Add DISTINCT
+        $queryBuilder->select(["name"])->distinct();
+    }
+    
+    public function actionFrom()
+    {
+        // SELECT FROM table.column c
+        (new \yii\db\Query)->select($columns)->from(["column c"]);
+        
+        // SELECT FROM table.column c
+        (new \yii\db\Query)->select($columns)->from(["c" => "column"]);
+        
+        // Помимо прочего, вместо таблиц можно записывать и подзапросы
+        $subQuery = (new \yii\db\Query)->select(["t.id"])->from(["t" => "table name"]);
+        (new \yii\db\Query)->select($columns)->from(["table" => $subQuery]);
+    }
+    
+    public function actionWhere()
+    {
+        
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
