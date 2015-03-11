@@ -57,7 +57,36 @@ class DbQueryBuilderController
     
     public function actionWhere()
     {
+        // законное выражение, но НИКОГДА НЕ ИСПОЛЬЗУЕТСЯ.
+        // плохая практика вставлять данные через переменные
+        // поскольку Запрос становится уязвимым к внедрению SQL вредоноского кода.
+        (new \yii\db\Query)->select(["column"])->from(["t" => "table"])
+        ->where(["status" => $status]);
         
+        // экранирует возможный SQL запрос
+        (new \yii\db\Query)->where(["status" => ":status"], [":status" => $status]);
+        
+        // добавление AND и OR через функции
+        (new \yii\db\Query)->orWhere($condition)->andWhere($condition);
+        
+        // where(["operator", "operand1", "operand2", ....]);
+        (new \yii\db\Query)->where(["and", "id=1", "id = 2", "id = 3"]);
+        
+        // SELECT... WHERE id = 1 AND (name = slava OR name = GP)
+        (new \yii\db\Query)->where(["and", "id=1", ["or", "name = slava", "name = GP"]]);
+    }
+    
+    public function actionOrderBy()
+    {
+        (new \yii\db\Query)->orderBy("id ASC")->addOrderBy("name DESC");//string|array
+    }
+    
+    public function actionGroupBy()
+    {
+        (new \yii\db\Query)->groupBy(["id", "name"]); //string|array
+        
+        $query->having(['status' => 1])
+              ->andHaving(['>', 'age', 30]);
     }
 }
 
