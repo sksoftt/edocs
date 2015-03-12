@@ -88,6 +88,48 @@ class DbQueryBuilderController
         $query->having(['status' => 1])
               ->andHaving(['>', 'age', 30]);
     }
+    
+    public function actionJoin()
+    {
+        // join($type, $table, $on);
+        (new \yii\db\Query)->join("INNER JOIN", "table name", "table.filed= secTable.field");
+        
+        
+        (new \yii\db\Query)->leftJoin($table, $on);
+        (new \yii\db\Query)->leftJoin(["t" => "table"], "t.field = otherTable.field");
+    }
+    
+    public function actionIndexing()
+    {
+        // Результатом выполнения запроса является массив с выбранными данными.
+        // массив индексируется обычным каунтером 0, 1, 2, 3, 4, 5....
+        // но это индексирование можно изменить.
+        
+        (new \yii\db\Query)->indexBy($column);
+        
+        // а этой анонимной функии $row представляет собой массив текущей строки
+        (new \yii\db\Query)->indexBy(function ($row)
+        {
+            return $row["Id"].$row["username"];
+        });
+    }
+    
+    public function actionBatch()
+    {
+        $query = (new \yii\db\Query)->from(["user_table"]);
+        
+        // foreach($query->batch($batchSize) as $key => $value)
+        foreach ($query->batch($batchSize) as $user)
+        {
+            //здесь $user получает по 100 "строчек" по умолчанию
+        }
+        
+        // foreach($query->each($batchSize) as $key => $value)
+        foreach ($query->each() as $user)
+        {
+            // этот метод вернет каждого пользователя в $user
+        }
+    }
 }
 
 
