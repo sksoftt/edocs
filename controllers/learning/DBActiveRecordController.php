@@ -45,6 +45,33 @@ class DBActiveRecordController
         
         $customer = self::find()->where($condition)->count();
     }
+    
+    
+    public function actionAccessingData()
+    {
+        /*
+         * Доступ к полям объекта происходит как и к обычным свойствам.
+         * 
+         * НЕЛЬЗЯ самому определять свойства объекта. Они определятся автоматически.
+         */
+        $this->id;
+    }
+    
+    public function actionSavingData()
+    {
+        // Сохранение данных произврдится по средствам
+        // присвоения данных к свойствам AR объекта и задействования функции save()
+        
+        $customer = new \yii\db\ActiveRecord();
+        $customer->name = "Slava";
+        $customer->save();
+        
+        //если объект новый, то метод save() добавит новую строчку в БД.
+        // если объект получен из запроса SQL то произведется его обновление update.
+        // Проверить новый ли объект или полученный от запроса можно посредствам
+        // свойства getIsNewRecord
+        // однако, можно вызвать функции insert() update() напрямую.
+    }
 }
 
 
