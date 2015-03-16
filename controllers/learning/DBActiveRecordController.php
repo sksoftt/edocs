@@ -59,8 +59,9 @@ class DBActiveRecordController
     
     public function actionSavingData()
     {
-        // Сохранение данных произврдится по средствам
+        // Сохранение данных произврдится   по средствам
         // присвоения данных к свойствам AR объекта и задействования функции save()
+        // функция save() АВТОМАТИЧЕСКИ вызвает проверку (validate())
         
         $customer = new \yii\db\ActiveRecord();
         $customer->name = "Slava";
@@ -71,6 +72,41 @@ class DBActiveRecordController
         // Проверить новый ли объект или полученный от запроса можно посредствам
         // свойства getIsNewRecord
         // однако, можно вызвать функции insert() update() напрямую.
+    }
+    
+    /*
+     * ПРИСВОЕНИЯ ДАННЫХ
+     */
+    public function massiveAssignment()
+    {
+        // AR поддерживает масивное присвоение аргументов.
+        // работает точно также как и в обычных моделях.
+        // т.е. присвоение производится только безопасным аттрибутам - 
+        // тем, которые перечилсены в сценарии scenario()
+        // или те, которые упомянаются в правилах rules()
+        $ar = new \yii\db\ActiveRecord();
+        $ar->attributes = $values;
+        
+        
+        // UPDATE AR_table set counter = counter + 2
+        // функция используется для предотвращения неверных результатов в случаях,
+        // когда один и тот же счетчик может быть обновлен одновременно несколькими пользователями.
+        $ar->updateCounters(["counter" => 2]);
+        
+        // UPDATE `customer` SET `age` = `age` + 1
+        Customer::updateAllCounters(['age' => 1]);
+        
+        // обновление нескольких строк одновременно
+        // UPDATE `customer` SET `status` = 1 WHERE `email` LIKE `%@example.com`
+        Customer::updateAll(['status' => Customer::STATUS_ACTIVE], ['like', 'email', '@example.com']);
+        
+    }
+    
+    public function transaction()
+    {
+        $transaction = $this->getDb()->beginTransaction();
+        $transaction->commit();
+        $transaction->rollBack();
     }
 }
 
