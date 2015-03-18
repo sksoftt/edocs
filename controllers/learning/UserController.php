@@ -36,15 +36,15 @@ class UserController
             // если полученные данные от формы корректны
             // производим поиск из БД
             $user = $model->findByName($model->user_name);
-            $atr = $user->getAttributes();
-            $id = $model->getId();
-            $mail = $model->user_email;
-            $pas = $model->user_password;
-            
-            
-//            $user->user_id = $user->attributes;
-            $id = $user->getId();
-            $id = $user->user_id;
+//            $atr = $user->getAttributes();
+//            $id = $model->getId();
+//            $mail = $model->user_email;
+//            $pas = $model->user_password;
+//            
+//            
+////            $user->user_id = $user->attributes;
+//            $id = $user->getId();
+//            $id = $user->user_id;
             
            // $user->user_id = 1;
             //$user->user_name = "s";

@@ -104,9 +104,35 @@ class DBActiveRecordController
     
     public function transaction()
     {
+        // транзакции используются для того, чтобы иметь возможность вернуть Бд 
+        // в прежднее состояние если в цепочке запросов произошла ошибка. 
+        // Есть 2 способа использовать Транзакции.
+        
         $transaction = $this->getDb()->beginTransaction();
-        $transaction->commit();
-        $transaction->rollBack();
+        
+        try
+        {
+            $this->find()->where(["field" => "value"])->all();
+            // другие запросы
+            
+            // если все удалось, то "сохраняем"
+            $transaction->commit();
+        }
+        catch (Exception $ex)
+        {
+            $transaction->rollBack();
+            throw $ex;
+        }
+    }
+    
+    //второй способ использовать Транзакции
+    // переопределить функцию transaction()
+    public function transactions()
+    {
+        return
+        [
+            "scenario_name" => self::OP_DELETE | self::OP_UPDATE,
+        ];
     }
 }
 
